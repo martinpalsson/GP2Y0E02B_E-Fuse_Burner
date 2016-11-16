@@ -14,7 +14,8 @@ Burn E-fuses to permanently change device address on Sharp GP2Y0E02B and GP2Y0E0
     sensors. 
     The code is written to be excecuted by
     an Arduino Due but can easily be ported
-    to any device.
+    to any device. Just remember that the sensor
+    expects 3.3V.
     
     The program makes use of the I2C-scanner found at
     http://playground.arduino.cc/Main/I2cScanner
@@ -39,12 +40,12 @@ Burn E-fuses to permanently change device address on Sharp GP2Y0E02B and GP2Y0E0
     3. Program your board.
     4. Connect your sensor to the I2C bus.
     5. Open up the serial monitor in Arduino IDE.
-    (Optional: by pushing the reset button, run the program once without Vpp connected. Expected address to be found is 0x80. If not the fuses of this sensor may already be burned).
+    (Optional: by pushing the reset button, run the program once without Vpp connected. Expected address to be found is 0x04 (0x80 bitshifted by one right). If thats not the case the fuses of this sensor may already be burned).
     6. Connect the Vpp pad in some way. (Solder a jumper or secure a jumper with isolated calipers). Make sure it's fed nothing more than 3.3V
-    7. Run the program ONCE by pushing the reset button on the arduino.
+    7. Run the program ONCE by pushing the reset button on the arduino. 
     8. Disconnect the Vpp pin (the one connected in step 6).
     9. With the Vpp pin disconnected, run the program once again by pushing the reset button.
-    10. Note the addres found in the scan. The address should correspond to the address given in SETADDR.
+    10. Note the address found in the scan. The address should correspond to the address given in SETADDR bitshifted one to the right.
     11. Give me feedback. martin.palsson@outlook.com
     
     Martin Pålsson 2016
