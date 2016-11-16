@@ -1,60 +1,16 @@
- /*
- --------------------------------------
+/*
+    ----------------------------------------------
+    Title:   E_FUSE.ino
+    Author:  Martin Pålsson
+    Description:
     E-Fuse programmer for SHARP GP2Y0E02B, GP2Y0E03
-
-    PLEASE KEEP IN MIND!
-    Note that this program, if used whitout
-    proper care, may render the sensor USELESS.
-    E-Fuses can be burned ONENCE. Your  sensor 
-    may get the Slave-ID of 0x00,
-    you can have only one of those on your I2C bus!
-    
-    Version 1
-
-    This program is for E-Fuse programming
-    on Sharp GP2Y0E02B, GP2Y0E03
-    sensors. 
-    The code is written to be excecuted by
-    an Arduino Due but can easily be ported
-    to any device.
-    Version 1 features only Slave ID programming.
-
-    According to the application notes you should
-    be able to verify that everything went well
-    in the burn. How ever, it didn't work out for
-    me. You find my code for that commented out in
-    the end of the EFuseSlaveID function.
-
-    The program can be tested by simply not
-    connecting the Vpp pin to the pad. The program
-    will run but no fuse will be burned.
-    The same way you can test your sensors address
-    after burning e-fuses. Just don't try to burn
-    e-fuses again on the same sensor!
-
-    Workflow:
-    1. Set desired address as SETADDR (preprocessor directive).
-    2. Save the file.
-    3. Program your board.
-    4. Connect your sensor to the I2C bus.
-    5. Open up the serial monitor in Arduino IDE.
-    (Optional: by pushing the reset button, run the program once without Vpp connected. Expected address to be found is 0x80. If not the fuses of this
-    sensor may already be burned).
-    6. Connect the Vpp pad in some way. (Solder a jumper or secure a jumper with isolated calipers). Make sure it's fed nothing more than 3.3V
-    7. Run the program ONCE by pushing the reset button on the arduino.
-    8. Disconnect the Vpp pin (the one connected in step 6).
-    9. With the Vpp pin disconnected, run the program once again by pushing the reset button.
-    10. Note the addres found in the scan. The address should correspond to the address given in SETADDR.
-    11. Give me feedback. martin.palsson@outlook.com
-    
-    Martin Pålsson 2016
-
-    */
+    -----------------------------------------------
+*/
     
 #include <Wire.h>
 
 #define ADDRESS (0x80 >> 1) // 7 MSB, default address of sensor
-#define SETADDR 0xF0        // 4 MSB, will bitshift in function.
+#define SETADDR 0xF0        // 4 MSB, will bitshift when used.
 
 /*  Prototypes  */
 int ScanBus();
@@ -62,6 +18,7 @@ uint8_t readSequence1(uint8_t devAddr, uint8_t regAddr);
 void writeSequence(uint8_t devAddr, uint8_t regAddr, uint8_t data);
 void EFuseSlaveID(uint8_t newID);
 
+/* Global variables */
 //uint8_t checkSum = 0; //  Not currently used
 void setup()
 {
@@ -73,13 +30,13 @@ void setup()
   Serial.begin(9600);
   
   while (!Serial);             // Due: wait for serial monitor
-  digitalWrite(13, LOW);
+  digitalWrite(13, LOW);       // To acknowledge that the program has run once.
   
   Serial.println("\nGP2Y0E02B E-Fuse Programmer Version 1.0");
 }
 void loop()
 {
-  Serial.println("Scanning I2C bus again...");
+  Serial.println("Scanning I2C bus...");
   if(ScanBus())
   {
     EFuseSlaveID(byte(SETADDR));
@@ -89,7 +46,7 @@ void loop()
     Serial.println("No devices found on bus");
   }
   
-  while(1);
+  while(1);;
 }
 void EFuseSlaveID(uint8_t newID)
 {
@@ -180,7 +137,7 @@ void EFuseSlaveID(uint8_t newID)
 //    writeSequence(byte(ADDRESS), byte(0xEC), byte(0xFF));
 //    Serial.println("Data = 0xFF is set in Address = 0xEC");
 //    digitalWrite(4, HIGH);
-//    Serial.println("3.3V is applied in Cpp terminal");
+//    Serial.println("3.3V is applied in Vpp terminal");
 //    
 //    /* ----- Stage 10 - 2 ----- */
 //    Serial.println("Stage 10 - 2 started.");
@@ -317,7 +274,7 @@ int ScanBus()
   byte error, address;
   int nDevices;
  
-  Serial.println("I2C Scanner starting...");
+  //Serial.println("I2C Scanner starting...");
  
   nDevices = 0;
   for(address = 0; address < 127; address++ )
