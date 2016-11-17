@@ -22,15 +22,15 @@ void EFuseSlaveID(uint8_t newID);
 //uint8_t checkSum = 0; //  Not currently used
 void setup()
 {
-  pinMode(4, OUTPUT);
-  pinMode(13, OUTPUT);
-  digitalWrite(13, HIGH);
+  pinMode(4, OUTPUT);       //  Connect to Vpp pad on sensor
+  pinMode(13, OUTPUT);      //  Onboard LED
+  digitalWrite(13, HIGH);   //  To indicate that serial communication has been established.
   Wire.begin();
  
   Serial.begin(9600);
   
   while (!Serial);             // Due: wait for serial monitor
-  digitalWrite(13, LOW);       // To acknowledge that the program has run once.
+  digitalWrite(13, LOW);       // To acknowledge that serial communication has been established.
   
   Serial.println("\nGP2Y0E02B E-Fuse Programmer Version 1.0");
 }
@@ -45,7 +45,7 @@ void loop()
   {
     Serial.println("No devices found on bus");
   }
-  
+  /* Nothing else to do */ 
   while(1);;
 }
 void EFuseSlaveID(uint8_t newID)
