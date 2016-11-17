@@ -4,8 +4,11 @@ Burn E-fuses to permanently change device address on Sharp GP2Y0E02B and GP2Y0E0
     PLEASE KEEP IN MIND!
     Use whitout proper care may render the sensor USELESS.
     E-Fuses can be burned only ONCE. The worst thing that
-    can happen is that your sensor can get the address 0x00,
+    can happen is that your sensor can get the slave-ID 0x00,
     and you can only have one of those!
+    Don't try to give your sensor the slave-ID 0xF0, the
+    sensor won't work with that slave-ID.
+    Don't apply more than 3.3V to any of the sensors pads.
     
     Version 1
 
@@ -21,8 +24,9 @@ Burn E-fuses to permanently change device address on Sharp GP2Y0E02B and GP2Y0E0
     http://playground.arduino.cc/Main/I2cScanner
     though a bit modified to be able to find the address 0x00.
     
-    According to the application notes you should
-    be able to verify that everything went well
+    According to the application notes
+    (http://www.sharp-world.com/products/device/lineup/data/pdf/datasheet/gp2y0e02_03_appl_e.pdf)
+    you should be able to verify that everything went well
     in the burn. How ever, it didn't work out for
     me. You find my code for that commented out in
     the end of the EFuseSlaveID function.
@@ -35,7 +39,7 @@ Burn E-fuses to permanently change device address on Sharp GP2Y0E02B and GP2Y0E0
     e-fuses again on the same sensor!
 
     Workflow:
-    1. Set desired address as SETADDR (preprocessor directive).
+    1. Set desired address as SETADDR (preprocessor directive), Table 14 in application notes (don't use 0xF0!).
     2. Save the file.
     3. Program your board.
     4. Connect your sensor to the I2C bus.
