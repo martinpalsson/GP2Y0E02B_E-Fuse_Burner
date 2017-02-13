@@ -73,7 +73,7 @@ void EFuseSlaveID(uint8_t newID)
   Serial.println("Data = 0x45 is set in Address = 0xC9");
 
   /* ----- Stage 4 ------ */
-  /* THIS IS WHERE THE ADRESS WILL BE SET! */
+  /* THIS IS WHERE THE ADDRESS WILL BE SET! */
   Serial.println("Stage 4 started.");
   writeSequence(byte(ADDRESS), byte(0xCD), byte(newID >> 4));
   Serial.println("Data = SETADDR >> 4 is set in Address = 0xCD");
