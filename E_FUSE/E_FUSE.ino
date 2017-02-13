@@ -9,8 +9,11 @@
     
 #include <Wire.h>
 
+/* Default address of sensor */
 #define ADDRESS (0x80 >> 1) // 7 MSB, default address of sensor
-#define SETADDR 0xF0        // 4 MSB, will bitshift when used.
+
+/* Desired address of the sensor */
+#define SETADDR 0xE0        // 4 MSB, will bitshift when used.
 
 /*  Prototypes  */
 int ScanBus();
@@ -24,7 +27,7 @@ void setup()
 {
   pinMode(4, OUTPUT);       //  Connect to Vpp pad on sensor
   pinMode(13, OUTPUT);      //  Onboard LED
-  digitalWrite(13, HIGH);   //  To indicate that serial communication has been established.
+  digitalWrite(13, HIGH);   //  To indicate that serial communication has been established. No led - Connection to PC established.
   Wire.begin();
  
   Serial.begin(9600);
